@@ -40,23 +40,20 @@ contadorGame = 0
 x = y = 230
 tempo = 20
 
+Img = pygame.image.load('Fundo.png')
+Fundo = pygame.transform.scale(Img, (800, 800))
+
 matriz = [[cores[random.randint(0,4)] for i in range(tamanhoMatriz)] for j in range(tamanhoMatriz)]
 
 def verificarSequencias(matriz): # Função utilizada para verificar se há sequências de 3 na matriz
     for i in range(tamanhoMatriz):
-        contagem = 0
         for j in range(tamanhoMatriz - 2):
             if matriz[i][j] == matriz[i][j + 1] == matriz[i][j + 2] and matriz[i][j] != preto:
-                contagem += 2
-                if contagem >= 2:
-                    return True
+                return True
     for j in range(tamanhoMatriz):
-        contagem = 0
         for i in range(tamanhoMatriz - 2):
             if matriz[i][j] == matriz[i + 1][j] == matriz[i + 2][j] and matriz[i][j] != preto:
-                contagem += 2
-                if contagem >= 2:
-                    return True
+                return True
     return False
 
 def evitarRepetidos(matriz): # Função utilizada para evitar combinações já feitas no início do jogo
@@ -91,14 +88,8 @@ def variaveisPadrao(): # Função utilizada para trazer as variáveis seus valor
 def inicioJogo(tamanhoMatriz, cores): # Função utilizada para seus valores de início de jogo
     matriz = [[cores[random.randint(0,4)] for i in range(tamanhoMatriz)] for j in range(tamanhoMatriz)]
     dicaTela = False
-    # matriz = [[vermelho, vermelho, vermelho, verde, amarelo,verde], 
-    #           [verde, azul, violeta, amarelo, verde, vermelho], 
-    #           [verde, azul, violeta, amarelo, verde, vermelho], 
-    #           [vermelho, vermelho, vermelho, verde, amarelo,verde], 
-    #           [verde, azul, violeta, amarelo, verde, vermelho], 
-    #           [vermelho, vermelho, vermelho, verde, amarelo,verde]]
     pontuacao = 0
-    qtdJogadas = 3
+    qtdJogadas = 5
     while verificarSequencias(matriz) == True:
         matriz = evitarRepetidos(matriz)
     pygame.mixer.music.load('AsrielTheme.mp3')
@@ -128,44 +119,41 @@ def posQuadrado(ySelecao, xSelecao, enter): # Função utilizada para relacionar
     enter = False
     return pos_x,pos_y, enter
 
-def guardarSequencias(pontuacao): # Função utilizada para guardar as sequências, chamar o cálculo de pontuação e chamar a função para pintar as combinações de preto
-    linha = []
-    coluna = []
-    qtd = 3
-    
+def guardarSequencias(pontuacao):
+    pecas_marcadas = set()
+
     for i in range(6):
         for j in range(4):                
             if matriz[i][j] == matriz[i][j + 1] == matriz[i][j + 2] and matriz[i][j] != preto:
-                pontuacao = calculoPontuacao(pontuacao, i, j, qtd)
-
-                linha.append(i)
-                coluna.append(j)
-                coluna.append(j + 1)
-                coluna.append(j + 2)  
-
-    linha2 = []
-    coluna2 = []
+                if (i, j) not in pecas_marcadas:
+                    pecas_marcadas.add((i, j))
+                    pecas_marcadas.add((i, j + 1))
+                    pecas_marcadas.add((i, j + 2))
+                else:
+                    pecas_marcadas.add((i, j + 2))
 
     for i in range(4):
         for j in range(6):
             if matriz[i][j] == matriz[i + 1][j] == matriz[i + 2][j] and matriz[i][j] != preto:
-                pontuacao = calculoPontuacao(pontuacao, i, j, qtd)
-
-                linha2.append(i)
-                linha2.append(i + 1)
-                linha2.append(i + 2)
-                coluna2.append(j) 
-
-    pintandoPreto(linha, coluna) 
-    pintandoPreto(linha2, coluna2)            
+                if (i, j) not in pecas_marcadas:
+                    pecas_marcadas.add((i, j))
+                    pecas_marcadas.add((i + 1, j))
+                    pecas_marcadas.add((i + 2, j))
+                else:
+                    pecas_marcadas.add((i + 2, j))
+   
+    pontuacao = calculoPontuacao(pontuacao, pecas_marcadas)
+    pintandoPreto(pecas_marcadas)             
 
     return pontuacao
 
-def pintandoPreto(linha, coluna): # Função utilizada para mudar a cor das peças encontradas na função anterior para preto
-    for i in range(len(linha)):
-        for j in range(len(coluna)):        
-            matriz[linha[i]][coluna[j]] = preto   
-            esperaAnima()    
+
+def pintandoPreto(pecas_marcadas):
+    for i, j in pecas_marcadas:
+        matriz[i][j] = preto
+        print(i, j)
+        esperaAnima()
+    
 
 def subirPreto(): # Função utilizada para por as cores pretas para cima e descer as que não são pretas
     for k in range(6):
@@ -183,19 +171,22 @@ def preencherPreto(): # Função utilizada para preencher as cores pretas após 
                 matriz[i][j] = random.choice(cores)
                 esperaAnima()              
 
-def calculoPontuacao(pontuacao, i, j, qtd): # Função utilizada para calcular a pontuação de acordo com a cor que for combinada
-    if matriz[i][j] == violeta:
-        pontuacao += 50 * qtd
-    elif matriz[i][j] == azul:
-        pontuacao += 40 * qtd
-    elif matriz[i][j] == vermelho:
-        pontuacao += 35 * qtd
-    elif matriz[i][j] == verde:
-        pontuacao += 30 * qtd
-    elif matriz[i][j] == amarelo:
-        pontuacao += 20 * qtd
-    
+def calculoPontuacao(pontuacao, pecas_marcadas):
+    cor_pontuacao = {
+        amarelo: 20,
+        verde: 30,
+        vermelho: 35,
+        azul: 40,
+        violeta: 50,
+    }
+
+    for i, j in pecas_marcadas:
+        cor_peca = matriz[i][j]  # Obtenha a cor da peça
+        if cor_peca in cor_pontuacao:
+            pontuacao += cor_pontuacao[cor_peca]
+
     return pontuacao
+
 
 def dicas(matriz): # Função que encontra uma possível combinação para mostrar ao jogador
     encontrado = False
@@ -238,8 +229,8 @@ def desenhoDica(i, j, direcao): # Função que desenha a dica na tela para visua
         pygame.draw.rect(tela, (255, 165, 0), (x, y, 54, 54), 2)
         pygame.draw.rect(tela, (255, 165, 0), (x1, y, 54, 54), 2)
 
-def esperaAnima(): # Função utilizada para esperar o movimento das peças, para facilitar a visualização
-    pygame.display.update()
+def esperaAnima(): # Função utilizada para esperar o movimento das peças, para facilitar a visualização nos testes
+    pygame.display.flip()
     pygame.time.wait(85)
     printMatriz(x, y) 
 

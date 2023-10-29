@@ -1,7 +1,7 @@
 import Funcoes
 from Funcoes import *
 
-#botaoMenu() # Chamada da função do Menu Principal
+botaoMenu() # Chamada da função do Menu Principal
 
 xcor, ycor, zcor, xSelecao, ySelecao, enter, gameOver, perguntaReset, prima, segunda, terca, reset, primeiraLetra, segundaLetra, terceiraLetra, primeiraRodada, começaTocar, contadorGame, x, y, tempo = variaveisPadrao()  
 
@@ -17,7 +17,7 @@ while True: # loop principal do jogo
         if verificarSequencias(Funcoes.matriz): # Apenas será permitido o fim de jogo após acabar as combinações
             gameOver = False
         else:
-            pygame.time.wait(100)
+            pygame.time.wait(80)
             gameOver = True
 
     if contadorGame == 49: # Condicional para verificar o momento para a música de gameover começar
@@ -42,7 +42,7 @@ while True: # loop principal do jogo
                 pygame.mixer.music.play(1)
                 pygame.mixer.music.set_volume(0.8)
 
-        elif contadorGame == 49 and not perguntaReset: # Quando chegar no elemento 49 da listaGameOver e ainda não chegou na pergunta de reinício
+        elif contadorGame == 49 and not perguntaReset: # Quando chegar no elemento 49 da listaGameOver e ainda não chegou na pergunta de reinício, mostra a mensagem de gameover com a imagem do coração e oespaço para inserir o nome
             textoGameOver = font2.render(f'GameOver', True, (255, 255, 255))
             textoInfoPontuacao = font.render(f'Sua pontuacao foi de {Funcoes.pontuacao}', True, (255, 255, 255))
             textoMensagem = font.render(f'(Isso te enche de determinacao.)', True, (255, 255, 255))
@@ -90,6 +90,12 @@ while True: # loop principal do jogo
                         pygame.mixer.music.set_volume(0.5)
                     contadorGame += 1
                 else:
+                    tela.blit(Fundo, (0, 0))
+                    pygame.display.update()
+                    pygame.mixer.music.load('Ah, isso foi intenso.mp3')
+                    pygame.mixer.music.play(1)
+                    pygame.mixer.music.set_volume(0.8)
+                    pygame.time.wait(2000)
                     xcor, ycor, zcor, xSelecao, ySelecao, enter, gameOver, perguntaReset, prima, segunda, terca, reset, primeiraLetra, segundaLetra, terceiraLetra, primeiraRodada, começaTocar, contadorGame, x, y, tempo = variaveisPadrao()
                     botaoMenu()
     
@@ -279,6 +285,7 @@ while True: # loop principal do jogo
 
             if event.key == K_SPACE: # Usamos a tecla espaço para voltar ao menu
                 primeiraRodada = True
+                xcor, ycor, zcor, xSelecao, ySelecao, enter, gameOver, perguntaReset, prima, segunda, terca, reset, primeiraLetra, segundaLetra, terceiraLetra, primeiraRodada, começaTocar, contadorGame, x, y, tempo = variaveisPadrao()  
                 botaoMenu()
                 
     pygame.display.flip() # função para atualizar a cada interação do loop principal

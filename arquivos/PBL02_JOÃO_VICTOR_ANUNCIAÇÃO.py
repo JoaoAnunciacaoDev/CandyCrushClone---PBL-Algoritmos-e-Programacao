@@ -9,7 +9,7 @@ while True: # loop principal do jogo
     clock.tick(tempo) # usar para controlar os frames do jogo
     tela.fill(preto) # preencher tela na cor preta  
 
-    if primeiraRodada: # Condicional para verificar a início do jogo, reiniciando apenas as variáveis necessárias
+    if primeiraRodada: # Condicional para verificar a início do jogo, iniciando ou reiniciando apenas as variáveis necessárias para seu valor de fábrica
         Funcoes.matriz, Funcoes.pontuacao, Funcoes.qtdJogadas, Funcoes.dicaTela = inicioJogo(tamanhoMatriz, cores) 
         primeiraRodada = False
 
@@ -35,7 +35,7 @@ while True: # loop principal do jogo
 
         if contadorGame < 49: # Enquanto estiver em um elemento da lista antes do 49 continua passando para o próximo
             tela.blit(animation.listaGameOver[contadorGame], (200, 50))
-            contadorGame += 1
+            contadorGame += 1 # variável contadora usada para passar de frame em frame
 
             if contadorGame == 20: # No frame 20 toca a som de quebrar do coração
                 pygame.mixer.music.load('broken.mp3')
@@ -43,7 +43,7 @@ while True: # loop principal do jogo
                 pygame.mixer.music.set_volume(0.8)
 
         elif contadorGame == 49 and not perguntaReset: # Quando chegar no elemento 49 da listaGameOver e ainda não chegou na pergunta de reinício, mostra a mensagem de gameover com a imagem do coração e oespaço para inserir o nome
-            textoGameOver = font2.render(f'GameOver', True, (255, 255, 255))
+            textoGameOver = font2.render(f'GameOver', True, (255, 255, 255)) # Definição e renderização dos textos em suas fontes anteriormente definidas
             textoInfoPontuacao = font.render(f'Sua pontuacao foi de {Funcoes.pontuacao}', True, (255, 255, 255))
             textoMensagem = font.render(f'(Isso te enche de determinacao.)', True, (255, 255, 255))
 
@@ -51,7 +51,7 @@ while True: # loop principal do jogo
             letra2 = font.render(abc[segundaLetra], True, (255, 255, 255))
             letra3 = font.render(abc[terceiraLetra], True, (255, 255, 255))
 
-            tela.blit(animation.listaGameOver[48], (200, 50))
+            tela.blit(animation.listaGameOver[48], (200, 50)) # Mostrando os textos na tela
             tela.blit(textoGameOver, (175, 100))
             tela.blit(textoInfoPontuacao, (165, 500))
             tela.blit(textoMensagem, (80, 550))
@@ -60,39 +60,39 @@ while True: # loop principal do jogo
             tela.blit(letra3, (450, 600))
 
         if perguntaReset: # Caso esteja no momento de perguntar sobre o reset
-            salvar_pontuacao(Funcoes.pontuacao)
+            salvar_pontuacao(Funcoes.pontuacao) # A pontuação é salva
             
-            textoInfoPontuacao = font.render(f'Deseja reiniciar o jogo?', True, (255, 255, 255))
+            textoInfoPontuacao = font.render(f'Deseja reiniciar o jogo?', True, (255, 255, 255)) # Pergunta ao jogador se o mesmo deseja jogar
             letra2 = font.render(abc[segundaLetra], True, (255, 255, 255))
 
-            tela.blit(animation.listaGameOver[48], (200, 50))
-            tela.blit(textoInfoPontuacao, (165, 500))
-            tela.blit(letra2, (400, 600))
+            tela.blit(animation.listaGameOver[48], (200, 50)) # Durante a escolha do jogador é mostrado um frame estático do coração
+            tela.blit(textoInfoPontuacao, (165, 500)) # É mostrado a pergunta na tela
+            tela.blit(letra2, (400, 600)) # A letra queo jogador controla é mostrada na tela, podendo ser S ou N
 
         if reset: # Caso esteja no momento de reiniciar
             if abc[segundaLetra] == "S": # Caso o jogador queira jogar novamente
                 if contadorGame < 73:
-                    tela.blit(animation.listaRefused[contadorGame], (200, 50))
-                    contadorGame += 1
-                    if contadorGame == 29:
+                    tela.blit(animation.listaRefused[contadorGame], (200, 50)) # Roda a animação
+                    contadorGame += 1 
+                    if contadorGame == 28:
                         pygame.mixer.music.load('somQuebra.mp3')
                         pygame.mixer.music.play(1)
-                        pygame.mixer.music.set_volume(0.5)
+                        pygame.mixer.music.set_volume(0.8)
                     if contadorGame == 73:
                         xcor, ycor, zcor, xSelecao, ySelecao, enter, gameOver, perguntaReset, prima, segunda, terca, reset, primeiraLetra, segundaLetra, terceiraLetra, primeiraRodada, começaTocar, contadorGame, x, y, tempo = variaveisPadrao()
             
             if abc[segundaLetra] == "N": # Caso o jogador não queira jogar novamente
                 if contadorGame < 29:
-                    tela.blit(animation.listaExplode[contadorGame], (178, 165)) # Roda a animação de quebra do coração antes de voltar ao menu
+                    tela.blit(animation.listaExplode[contadorGame], (178, 165)) # Roda a animação
                     if contadorGame == 19:
                         pygame.mixer.music.load('somQuebra.mp3')
                         pygame.mixer.music.play(1)
-                        pygame.mixer.music.set_volume(0.5)
+                        pygame.mixer.music.set_volume(0.8)
                     contadorGame += 1
                 else:
                     tela.blit(Fundo, (0, 0))
                     pygame.display.update()
-                    pygame.mixer.music.load('Ah, isso foi intenso.mp3')
+                    pygame.mixer.music.load('Ah, isso foi intenso.mp3') # Áudio da Ellie
                     pygame.mixer.music.play(1)
                     pygame.mixer.music.set_volume(0.8)
                     pygame.time.wait(2000)
@@ -101,18 +101,18 @@ while True: # loop principal do jogo
     
     else: # Caso ainda não esteja no gameOver o jogo funciona normalmente
         pygame.draw.rect(tela, (18, 18, 18), (220, 220, 360, 360), border_radius = 10) # Desenha o tabuleiro onde as peças ficam
-        selecao = pygame.draw.rect(tela, (xcor, ycor, zcor), (ySelecao, xSelecao, 50, 50), 2)
+        selecao = pygame.draw.rect(tela, (xcor, ycor, zcor), (ySelecao, xSelecao, 50, 50), 2) # Desenha o retângulo de seleção
 
-        if Funcoes.dicaTela:
+        if Funcoes.dicaTela: # Caso o jogador tenha pedido dica tendo a quantidade de pontos necessária é chamado a função para desenhar a dica na tela
             Funcoes.desenhoDica(a, b, dicaDirecao)
 
         if contadorGame < 12: # Controle da animaçã do coração pulsando
-            tela.blit(animation.listaPulso[contadorGame], (325, 10))
-            contadorGame += 1
+            tela.blit(animation.listaPulso[contadorGame], (325, 10)) # É mostrado a animação na tela
+            contadorGame += 1 # variável contadora usada para passar de frame em frame
         else:
-            contadorGame = 0
+            contadorGame = 0 # Reseta a animação
 
-        textoPontuacao = font.render(f'Pontuacao: {Funcoes.pontuacao}', True, (255, 255, 255)) # Armazenando o texto de jogadas, pontuaçõa e instruções
+        textoPontuacao = font.render(f'Pontuacao: {Funcoes.pontuacao}', True, (255, 255, 255)) # Renderiza o texto de jogadas, pontuaçõa e instruções
         textoJogadas = font.render(f'Jogadas: {Funcoes.qtdJogadas}', True, (255, 255, 255))
         textoInstrucao = font3.render(f'W/A/S/D ou SETAS para mover', True, (255, 255, 255))
         textoInstrucao2 = font3.render(f'ENTER para selecionar', True, (255, 255, 255))
@@ -120,7 +120,7 @@ while True: # loop principal do jogo
         textoInstrucao4 = font3.render(f'ESPACO para voltar ao menu', True, (255, 255, 255))
         textoInstrucao5 = font3.render(f'ESC para fechar o jogo', True, (255, 255, 255))
 
-        tela.blit(textoPontuacao, (10, 10)) # Mostrando os textosna tela
+        tela.blit(textoPontuacao, (10, 10)) # Mostrando os textos na tela
         tela.blit(textoJogadas, (560, 10))
         tela.blit(textoInstrucao, (200, 600))
         tela.blit(textoInstrucao2, (250, 640))
@@ -141,7 +141,7 @@ while True: # loop principal do jogo
             sys.exit()
 
         if event.type == KEYDOWN: # Sair do programa quando pressionar a tecla ESC
-            if event.key == K_ESCAPE:
+            if event.key == K_ESCAPE: # Caso aperte ESC o jogo fecha
                 pygame.quit()
                 sys.exit()
             if event.key == K_w or event.key == K_UP: # Tecla W e Seta Up usadas para mover a seleção
@@ -267,13 +267,13 @@ while True: # loop principal do jogo
                             contadorGame = 0
                             perguntaReset = False
                     else:
-                        if prima: # Caso o jogador aperte enter, passamos para a próxima letra
+                        if prima and primeiraLetra != 26: # Caso o jogador aperte enter, passamos para a próxima letra
                             prima = False
                             segunda = True
-                        elif segunda:
+                        elif segunda and segundaLetra != 26:
                             segunda = False
                             terca = True
-                        else:
+                        elif terca and terceiraLetra != 26:
                             terca = False
                             nomeJogador = abc[primeiraLetra] + abc[segundaLetra] + abc[terceiraLetra] # Juntamos as letras escolhidas pelo jogador
                             primeiraLetra = segundaLetra = terceiraLetra = 26 # Voltamos as letras para seu valor original

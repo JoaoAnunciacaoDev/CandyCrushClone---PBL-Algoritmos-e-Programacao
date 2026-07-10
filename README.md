@@ -2,7 +2,7 @@
 
 Este projeto é um clone do clássico **Candy Crush** desenvolvido em Python com a biblioteca **Pygame**, enriquecido com várias temáticas divertidas (como *Undertale* e *Street Fighter*), músicas envolventes e animações dinâmicas de transição e GameOver.
 
-O projeto foi inicialmente criado como parte de um projeto de **PBL (Problem-Based Learning)** para a universidade. Esta versão foi organizada, reestruturada e empacotada profissionalmente para facilitar o download de recursos, a execução e a manutenção do código.
+O projeto foi inicialmente criado como parte de um projeto de **PBL (Problem-Based Learning)** para o curso JEDI TEMPLE - UEFS. Esta versão foi organizada, reestruturada e empacotada profissionalmente para facilitar o download de recursos, a execução e a manutenção do código.
 
 ---
 

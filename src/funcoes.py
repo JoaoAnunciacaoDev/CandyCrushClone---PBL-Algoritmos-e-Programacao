@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import animation
-from paths import get_asset_path, BASE_DIR
+from paths import get_asset_path, get_save_path
 from pygame.locals import (
     QUIT,
     KEYDOWN,
@@ -21,7 +21,7 @@ from pygame.locals import (
     K_DOWN,
 )
 
-SCORE_FILE = os.path.join(BASE_DIR, "pontuacao.json")
+SCORE_FILE = get_save_path("pontuacao.json")
 
 try:
     with open(SCORE_FILE, "r", encoding="utf-8") as arquivo:

@@ -3,3 +3,4 @@ install = { description = "Instala as dependências do projeto usando Poetry", r
 play = { description = "Executa o jogo Candy Crush Clone", run = "poetry run play" }
 lint = { description = "Executa a verificação estática do código usando Ruff", run = "poetry run ruff check" }
 format = { description = "Formata o código do projeto usando Ruff", run = "poetry run ruff format" }
+build = { description = "Compila o jogo em um arquivo .exe usando PyInstaller", run = "poetry run pyinstaller --onefile --noconsole --name \"CandyCrushDeepWeb\" --add-data \"assets;assets\" src/main.py" }

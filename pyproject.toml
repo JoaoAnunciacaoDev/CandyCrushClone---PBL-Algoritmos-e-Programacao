@@ -19,6 +19,7 @@ packages = [{ include = "src" }]
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.0"
+pyinstaller = "^6.0.0"
 
 [tool.ruff]
 line-length = 120

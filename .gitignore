@@ -29,6 +29,11 @@ ENV/
 pontuacao.json
 pontuação.json
 
+# PyInstaller
+build/
+dist/
+*.spec
+
 # System Files
 Thumbs.db
 Desktop.ini

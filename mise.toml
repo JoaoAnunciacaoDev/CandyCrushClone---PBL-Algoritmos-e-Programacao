@@ -1,0 +1,5 @@
+[tasks]
+install = { description = "Instala as dependências do projeto usando Poetry", run = "poetry install" }
+play = { description = "Executa o jogo Candy Crush Clone", run = "poetry run play" }
+lint = { description = "Executa a verificação estática do código usando Ruff", run = "poetry run ruff check" }
+format = { description = "Formata o código do projeto usando Ruff", run = "poetry run ruff format" }

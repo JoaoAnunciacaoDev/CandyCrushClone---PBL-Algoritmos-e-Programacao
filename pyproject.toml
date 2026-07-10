@@ -1,0 +1,29 @@
+[project]
+name = "candy-crush-clone"
+version = "0.1.0"
+description = "Clone do Candy Crush com temáticas de Undertale e Street Fighter, desenvolvido em Python usando Pygame para PBL"
+authors = [
+    { name = "João Victor Anunciação" }
+]
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pygame>=2.5.2",
+]
+
+[project.scripts]
+play = "src.main:run_game"
+
+[tool.poetry]
+packages = [{ include = "src" }]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.0"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"

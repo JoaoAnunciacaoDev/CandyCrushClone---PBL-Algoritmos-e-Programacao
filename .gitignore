@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints
+.pytest_cache/
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+.poetry/
+
+# Mise
+.mise/
+
+# IDEs
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Game Local State (Scoreboard)
+pontuacao.json
+pontuação.json
+
+# System Files
+Thumbs.db
+Desktop.ini
